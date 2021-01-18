@@ -14,7 +14,7 @@
 
 1. create public/private key; in terminal:
   * *ls ~/.ssh* - check if there is no ssh file in the project directory,
-  * *ssh-hygen -t rsa -b 4096 -C "__email address__"* - determine parameters
+  * *ssh-keygen -t rsa -b 4096 -C "__email address__"* - determine parameters
     of the key,
   * input id for the key,
   * input pass phrase for the key.
@@ -23,6 +23,8 @@
 4. add ssh key to account by naming it and pasting copied key to the GitHub account,
 5. create new public repository with the new name,
 6. in terminal run few lines of code suggested by GitHub to **push an existing repository**.
+
+![Git Data Transport Commands](/home/pawel/Pictures/wallpapers/git_data_transport_commands.png)
 
 # Creating Vagrant file
 (to have local development server that we can use to run and test API)
