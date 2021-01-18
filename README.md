@@ -24,7 +24,7 @@
 5. create new public repository with the new name,
 6. in terminal run few lines of code suggested by GitHub to **push an existing repository**.
 
-![Git Data Transport Commands](/home/pawel/Pictures/wallpapers/git_data_transport_commands.png)
+![Git Data Transport Commands](https://i.stack.imgur.com/Mqs0a.png)
 
 # Creating Vagrant file
 (to have local development server that we can use to run and test API)
