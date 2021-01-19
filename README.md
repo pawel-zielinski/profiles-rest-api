@@ -102,6 +102,27 @@ on port 8000 (port must match with settings in __Vagrantfile__). Now the server
 is running and we can check it by going to our browser and browsing
 __127.0.0.1:8000__.
 
+# Django models
+
+In Django we use models to describe the data we need for our application. Django
+then uses these models to set up and configure our database to store our data effectively
+
+Each model in Django maps to a specific table within our database. Django handles
+the relationship between our models and the database for us so we never need
+to write any SQL statements or interact with the database directly.
+
+# Create user database model
+
+1. Create user profile model (Django by default can create user model but we
+   will override it and create our custom profile model).
+2. Best practice is to keep all of the models files (all of the database models)
+   in a file called __models.py__ within our app.
+3. In __models.py__ import *from django.contrib.auth.models import AbstractBaseUser*
+and *from django.contrib.auth.models import PermissionsMixin* as they are standard
+base classes that you need to use when overriding or customizing the default
+Django user model.
+4. Create new class for models (*__go to models.py for more informations__*)
+
 # Profiles REST API
 
 Profiles REST API course code.
