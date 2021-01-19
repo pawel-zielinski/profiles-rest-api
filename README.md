@@ -39,7 +39,7 @@
 
 # Run and contact to the server
 
-1. run *vagrant up* in the terminal (VirtualBox needed) to create virtual machine,
+1. run *vagrant up* in the terminal (VirtualBox needed) to start virtual machine,
 2. run *vagrant ssh* to connect to the server by ssh protocol.
 
 
@@ -47,7 +47,60 @@ To access project files go to Vagrant directory on virtual machine by typing *cd
 in terminal while connected to the server.
 We can add Python program to the project and run it on vm by typing *python __file_name.py__*.
 
+# Create Python Virtual Environment
 
+1. to create Python environment type in terminal *python -m venv ~/env* while
+   logged to vm,
+2. activate Python virtual environment by typing *source ~/env/bin/activate*,
+3. to switch off the environment just type *deactivate*.
+
+# Install required Python packages
+
+1. create new .txt file in your project where you will add packages' names and
+   their versions,
+
+Note: it is a good practice to set static version of the program to avoid unexpected
+updates that can be incompatible for other packages.
+
+2. While in */vagrant* file and Python Virtual Environment activated, type
+   *pip install -r __file_with_previously_added_packages.txt__*.
+
+# Create a new Django project & app
+
+1. make sure that you are still in terminal with virtual environment activated and
+   with directory set to */vagrant*,
+2. to start a new project with a specific name in a specific location type
+   *django-admin.py startproject __name_of_the_project__ .* while "." is the
+   root location of the project,
+
+Note: if "." will not be passed there will be created a sub folder with the name
+passed in the __name_of_the_project__ argument.
+
+3. to create Django app within our project for our Profiles API type
+   *python manage.py startapp profiles_api*. This will create a new file with our app.
+
+Note: Django can consist of one or more sub applications within a project that you can
+use to separate different functionality within your project.
+
+# Enable app in the Django
+
+1. open __settings.py__ in Atom,
+2. add *"rest_framework"*, *"rest_framework.authtoken"* and *"profiles_api"* to
+   INSTALLED_APPS list.
+
+Note: *"rest_framework"* - app for Django REST Framework,
+*"rest_framework.authtoken"* - allows to use authentication token functionality.
+
+# Test and commit changes
+
+1. to start Django Web Development Server type in terminal (activate PVE and
+   set to __/vagrant__ directory) *python manage.py runserver 0.0.0.0:8000*,
+
+Note: *python manage.py runserver 0.0.0.0:8000* means that we run
+Django Web Develpoment Server on every available network adapter (0.0.0.0)
+on port 8000 (port must match with settings in __Vagrantfile__). Now the server
+is running and we can check it by going to our browser and browsing
+__127.0.0.1:8000__.
 
 # Profiles REST API
 
