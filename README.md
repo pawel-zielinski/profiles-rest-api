@@ -111,7 +111,7 @@ Each model in Django maps to a specific table within our database. Django handle
 the relationship between our models and the database for us so we never need
 to write any SQL statements or interact with the database directly.
 
-# Create user database model
+# Create a user database model
 
 1. Create user profile model (Django by default can create user model but we
    will override it and create our custom profile model).
@@ -121,7 +121,21 @@ to write any SQL statements or interact with the database directly.
 and *from django.contrib.auth.models import PermissionsMixin* as they are standard
 base classes that you need to use when overriding or customizing the default
 Django user model.
-4. Create new class for models (*__go to models.py for more informations__*)
+4. Create new class for models (*__go to models.py for more informations__*).
+
+# Add a user model manager
+
+Note: because we have costumized our user model we need to tell Django how to
+interact with this user model in order to create users because by default when
+it creates a user it expects a username field and a password field but we have
+replaced the username field with a email field so we just need to create
+a custom manager that can handle creating users with an email fields instead
+of a username field.
+
+1. Create custom user manager in __models.py__ (*__for details go to models.py__*).
+
+Note: The way manager work is you specify some functions within the manager
+that can be used to manipulate objects within the model that the manager is for.
 
 # Profiles REST API
 
