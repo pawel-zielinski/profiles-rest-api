@@ -137,6 +137,30 @@ of a username field.
 Note: The way manager work is you specify some functions within the manager
 that can be used to manipulate objects within the model that the manager is for.
 
+# Set user custom model
+
+Note: Now that we have set custom user model and custom user model manager we
+can configure our project to use these as the default user model.
+
+1. Go to __settings.py__ to the bottom of the file.
+2. Type *AUTH_USER_MODEL = '__string that represents the model that we want to use as the Django user model__'*.
+
+# Create Django migration file and sync DB
+
+Note: Migration files are used for models that we have added to the project.
+The way that Django manages the database is it creates what is called a migration
+file that stores all of the steps required to make our database match our Django
+models. Every time we change a model or add additional models to our project we 
+need to create a new migration file. The migration file will contain the steps
+required to modify the database to match our updated models. So for example
+if we add a new model to our project then we need to be able to create a new
+table in the database and the way that Django does this is it uses what is called
+migrations.
+
+1. To create Django migrations use the Django command-line tool. Open up the
+terminal and type *cd Courses
+
+
 # Profiles REST API
 
 Profiles REST API course code.
