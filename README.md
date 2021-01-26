@@ -179,6 +179,57 @@ terminal and type:
 
 Note: To enable admin and look up for more informations go to __admin.py__.
 
+# Test Django Admin
+
+1. Start development server by typing *python manage.py runserver 0.0.0.0:8000*.
+2. Open up browser and search *127.0.0.1:8000/admin* to launch development website
+   with admin enabled.
+3. Log in using previously created account of superuser.
+
+Note: Three sections will appear (representing three different apps in our project):
+  * __AUTH TOKEN__ - automatically added as part of Django REST framework
+    when we enabled our tokens,
+  * __AUTHENTICATION AND AUTHORIZATION__ - part of Django. This and __AUTH TOKEN__
+    allows authentication system,
+  * __PROFILES_API__ - created by us. we can see that the model we created is right
+    below named *User profiles*. Notice that it is the name Django got from the name
+    we have given to the user profile class in __models.py__ (Django separates camel
+    casing [capital letters] and adds letter "s" at the end - this is because it is
+    normalized to call classes singular with camel casing).
+
+# APIViews
+
+The Django REST framework offers a couple of helper classes we can use to create
+our API endlpoints: the __APIView__ and the __ViewSet__. Both classes are
+slightly different and offer their own benefits.
+
+The __APIView__ is the most basic type of view we can use to build our API.
+It enables us to describe the logic which makes our API endpoint. An __APIView__
+allows us to define functions that match the standard HTTP methods:
+  * *get* - return one or more items,
+  * *post* - create an item,
+  * *put* - update an item,
+  * *patch* - partially update an item,
+  * *delete* - delete an item.
+__Every HTTP method must return response.__
+By allowing us to customize the function for each HTTP method on our API URL,
+__APIViews__ give us the most control over our application logic. This is perfect
+in cases where you need to do something a little bit different from simply updating
+objects in the database such as:
+  * calling other APIs,
+  * working with local files.
+When to use __APIViews__:
+  * need full control over your application logic (when you are running a very
+    complicated algorithm or updating multiple data sources in one API call),
+  * processing files and rendering a synchronous response (when you are validating
+    a file and returning the result in the same call),
+  * calling other APIs/services in the same request,
+  * access local files or data.
+
+# Create first APIView
+
+1. Open __viws.py__ for more informations.
+
 # Profiles REST API
 
 Profiles REST API course code.
