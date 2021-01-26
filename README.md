@@ -125,7 +125,7 @@ Django user model.
 
 # Add a user model manager
 
-Note: because we have costumized our user model we need to tell Django how to
+Note: Because we have customized our user model we need to tell Django how to
 interact with this user model in order to create users because by default when
 it creates a user it expects a username field and a password field but we have
 replaced the username field with a email field so we just need to create
@@ -150,7 +150,7 @@ can configure our project to use these as the default user model.
 Note: Migration files are used for models that we have added to the project.
 The way that Django manages the database is it creates what is called a migration
 file that stores all of the steps required to make our database match our Django
-models. Every time we change a model or add additional models to our project we 
+models. Every time we change a model or add additional models to our project we
 need to create a new migration file. The migration file will contain the steps
 required to modify the database to match our updated models. So for example
 if we add a new model to our project then we need to be able to create a new
@@ -158,8 +158,26 @@ table in the database and the way that Django does this is it uses what is calle
 migrations.
 
 1. To create Django migrations use the Django command-line tool. Open up the
-terminal and type *cd Courses
+terminal and type:
+  * *cd __location of Vagrant machine__* - to define which Vagrant machine will be used,
+  * *vagrant up* - to start up machine,
+  * *vagrant ssh* - to connect to the machine by ssh protocol,
+  * *cd /Vagrant*,
+  * *source ~/env/bin/activate* - to activate virtual environment,
+  * *python manage.py makemigrations __name of the app we want to make migrations for - profiles_api__* -
+    to create new migration file for user profiles model,
+  * *python manage.py migrate* - run migrations (will make all the changes required
+    to set up our database for our Django project).
 
+# Create a superuser
+
+1. To create superuser open up the terminal.
+2. With virtual environment activated type *python manage.py createsuperuser*.
+3. Follow the instructions given by terminal.
+
+# Enable Django Admin
+
+Note: To enable admin and look up for more informations go to __admin.py__.
 
 # Profiles REST API
 
