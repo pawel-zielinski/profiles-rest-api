@@ -244,7 +244,30 @@ that is the entry point for all of the URLs in our app. We store every URL in
    and *views* from *profiles_api*.
 5. Create a new variable or a list variable called *urlpatterns* where we will store
    paths that map to views in our project (more informations - go to __urls.py__ in __profiles_api__).
-6.
+
+# Create a serializer
+
+1. Create a new file at __profiles_api__ and call it __serializers.py__
+   (for more informations go to __serializers.py__ in __profiles_api__).
+
+# Add POST method to APIView
+
+1. Import *status* and *serializers* to __views.py__.
+2. Add *post* class method and add logic to it (more informations in __views.py__).
+3. Test the results on web page.
+
+# Add PUT, PATCH and DELETE methods in APIView
+
+1. Go to __views.py__ for more informations.
+
+Note: The difference between PUT and PATCH is that the PUT method updates the whole
+object while PATCH only does this partially. So for example if we change the name
+and the id for our object and we will use PUT method we will be able to update
+both name and id. But if we use PATCH method we will be able to update name or id.
+
+2. Test the results on website. Remember that PATCH method is more complex but
+   still quite similar to the PUT so you will find it in PUT area but in __Raw data__
+   overlap.
 
 
 # Profiles REST API

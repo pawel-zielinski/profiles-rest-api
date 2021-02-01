@@ -2,12 +2,17 @@ from rest_framework.views import APIView                                        
 from rest_framework.response import Response                                    # Is used to return responses from the APIView. It is a standard response object that when you call
                                                                                 # the APIView or when Django REST Framework calls our APIView it is expecting it to return this standard
                                                                                 # response object.
+from rest_framework import status                                               # Imports status instructions.
+from profiles_api import serializers                                            # Imports serializers.py from profiles_api app.
+
+
 class HelloApiView(APIView):                                                    # It creates a new class based on the APIView class that Django REST Framework provides and it allows
     """Test API View"""                                                         # us to define the application logic for our endpoint that we are going to assign to this view.
                                                                                 # So the way it works is you define a URL (whitch is our endpoint) and then you assign it to this view
                                                                                 # and the Django REST Framework handles it by calling the appropriate function in the view for the HTTP
                                                                                 # request that you make.
 
+    serializer_class = serializers.HelloSerializer                              # Adds serializer class to the HelloApiView class.
 
     def get(self, request, format = None):                                      # To accept the HTTP GET request to our API. It is typically used to retrieve a list of objects
         """Returns a list of APIView features"""                                # or a specific object.
@@ -20,3 +25,28 @@ class HelloApiView(APIView):                                                    
 
         return Response({'message':'Hello!', 'an_apiview':an_apiview})          # It converts the response object to json. In order to convert it to json it needs to be either
                                                                                 # a list or adictionary.
+    def post(self, request):
+        """Create a hello message with our name"""
+        serializer = self.serializer_class(data = request.data)                 # Retrieve the serializer and pass in the daa that was sent in request.
+                                                                                # This is a standard way to retrieve the serializer_class when working with serializers in a view.
+        if serializer.is_valid():                                               # Check serializers.py to see requirements that the serializer must meet.
+            name = serializer.validated_data.get('name')                        # Retrieves the name from validated data.
+            message = 'Hello {}'.format(name)                                   # Creates a "hello" message.
+            return Response({'message' : message})                              # Returns validated response.
+        else:
+            return Response(
+                            serializer.errors,
+                            status = status.HTTP_400_BAD_REQUEST
+                            )                                                   # Returns error response with error 400 status.
+
+    def put(self, request, pk = None):
+        """Handle updating an object"""
+        return Response({'method' : 'PUT'})
+
+    def patch(seld, request, pk = None):
+        """Handle a partial update of an object"""
+        return Response({'method' : 'PATCH'})
+
+    def delete(self, request, pk = None):
+        """Delete an object"""
+        return Response({'method' : 'DELETE'})
