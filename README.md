@@ -228,7 +228,24 @@ When to use __APIViews__:
 
 # Create first APIView
 
-1. Open __viws.py__ for more informations.
+Note: Open __viws.py__ for more informations.
+
+# Configure view URL
+
+Note: The way that Django URLs work is that we have the __urls.py__ (in __profiles_project__)
+that is the entry point for all of the URLs in our app. We store every URL in
+*urlpatterns* list.
+
+1. We have to create a new __urls.py__ for __profiles_api__ app.
+2. Import *include* from *django.urls* in __urls.py__ (__profiles_project__).
+3. Add new URL to *urlpatterns* (*'api/'*), call *include* and pass in the name
+   of the app and the module we want to include that contains our URLs (*'profiles_api.urls'*).
+4. Next go to __urls.py__ in __profiles_api__ and import *path* from *django.urls*
+   and *views* from *profiles_api*.
+5. Create a new variable or a list variable called *urlpatterns* where we will store
+   paths that map to views in our project (more informations - go to __urls.py__ in __profiles_api__).
+6.
+
 
 # Profiles REST API
 

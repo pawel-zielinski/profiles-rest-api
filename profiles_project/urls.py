@@ -18,5 +18,5 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', include('profiles_api.urls'))
+    path('api/', include('profiles_api.urls'))                                  # When we browse our server with "/api" it will search for "profiles_api.urls".
 ]
