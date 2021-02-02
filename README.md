@@ -269,6 +269,66 @@ both name and id. But if we use PATCH method we will be able to update name or i
    still quite similar to the PUT so you will find it in PUT area but in __Raw data__
    overlap.
 
+# ViewSets
+
+Just like __APIViews__, __ViewSets__ allow us to write the logic for our endpoints. However
+instead of defining functions which map to HTTP methods, __ViewSets__ accept functions
+that map to common API object actions such as:
+  * *list* - for getting a list of objects,
+  * *create* - for creating new objects,
+  * *retrieve* - for getting a specific object,
+  * *update* - for updating an object,
+  * *partial_update* - for updating part of an object,
+  * *destroy* - for deleting an object.
+Additionally __ViewSets__ can take care a lot of the common logic for us.
+They are perfect for writing APIs that perform standard database operations
+and they are the fastest way to make an API which interfaces with a database back-end.
+When to use __ViewSets__ rather than __APIViews__:
+  * if you need to write an API that performs a simple create, read, update
+    and delete operations (CRUD) on an existing database model,
+  * if you need a quick and simple API,
+  * if you need little or no customization on the logic,
+  * if your API is working with standard database structure.
+
+# Create a simple ViewSet
+
+1. Head over to view.py.
+2. Import *viewsets* from *rest_framework*.
+3. Create a new *HelloViewSet* class and add functions to it.
+
+Note: __ViewSet's__ methods are different from the __APIView's__. While __APIView's__ methods
+concentrate for particular HTTP methods that you want to support on your endpoint,
+__ViewSet's__ methods represent actions that you would perform on a typical API.
+
+# Add URL Router
+
+Note: Just like with our __APIView__ we need to register our new __ViewSet__ with
+a URL to make it accessible through our API. The way that you register the __ViewSets__
+with a URL is slightly different from how you register the __APIView__ with the URL.
+
+To register __APIView__ with the *hello-view/* URL we used the *path* function in
+__profiles_api/urls.py__.
+
+To register __ViewSet__ you have to:
+1. Use *Router* (class provided by the Django REST Framework) in order to generate
+   the different routes that are available for our __ViewSet__:
+   * in __profiles_api/urls.py__ import *include* from *django.urls* and
+     *DefaultRouter* from *rest_framework.routers*,
+   * to use *DefaultRouter* is you assign the router to a variable,
+2. Use *__variable__.register* to register specific __ViewSets__ with our router
+   (*"/"* is not needed in __ViewSets'__ URLs).
+3. Add the URL to existing *urlpatterns*.
+
+Note: So as you register new routes with our router, it generates a list of URLs
+that are associated for our __ViewSet__. It figures out the URls that are required
+for all of the functions that we add to our __ViewSet__ and then it generates this
+URLs list which we can pass in to using the *path* function and the *include*
+function to our *urlpatterns*.
+
+More informations in __profiles_api/urls.py__.
+
+
+
 
 # Profiles REST API
 
