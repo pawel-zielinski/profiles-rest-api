@@ -327,6 +327,56 @@ function to our *urlpatterns*.
 
 More informations in __profiles_api/urls.py__.
 
+# Add create, retrieve, update, partial_update and destroy functions
+
+1. Go to __views.py__ and add serializer to *HelloViewSet* class in the same way
+   that you added it to the __APIView__.
+
+Note: We can use the same serializer that we created for our __APIView__.
+
+2. Add functions in *HelloViewSet* class.
+
+For more informations head over to __views.py__.
+
+# Test ViewSet
+
+Note: Unlike the API view we do not actually see the put, patch and delete
+methods here on the */hello-viewset* API. That is because __ViewSets__ expect that you
+will use this endpoint to retrieve a list of objects in the database and you
+will specify a primary key ID in the URL when making changes to a specific object.
+So if we want to see these additional functions that we added, we need to add
+something to the end of the URL. Now in in this case because we are not actually
+retrieving any real objects, it does not matter what you type, but if you just put
+a number here, that would represent a primary key of an object, that you wanted to
+change and hit enter, then it will change the page to the get request.
+
+# Plan our profile API
+
+Now that we know how to make a simple API we can move on to building our
+profiles API. Before we get started let's explain the specification of
+what we are going to build. Our profile API is going to be able to handle the
+following:
+  1. creating a profile to handle the registration of new users in the system -
+     this will include validating the profile data to ensure that a user provided
+     all the required fields,
+  2. listing existing profiles so users can find other users in the system - this
+     needs to include a way to search for users by email or name,
+  3. viewing a specific profile by the profile ID,
+  4. updating the profile of the logged in user - users in the system should be
+     able to change their name, email address and password for their profile,
+  5. provide a way for users to delete their own profile.
+
+So what URLs and methods might our API have? Since our API manages profiles it
+makes sense to give it the name *profile*.
+  1. So the URL would be __/api/profile/__:
+      * the route of the URL will list all profiles -> HTTP GET method is called,
+      * create a new profile -> HTTP POST method is called.
+  2. If the URL would be __/api/profile/<profile_id>/__    
+      * view all the details of a specific profile object -> HTTP GET method is called,
+      * update the object -> HTTP PUT or PATCH method is called,
+      * remove object completely from the system -> HTTP DELETE method is called.
+
+# Create user profile serializer
 
 
 
