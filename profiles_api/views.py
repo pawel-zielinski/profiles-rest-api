@@ -8,6 +8,8 @@ from profiles_api import serializers                                            
 from rest_framework import viewsets
 from profiles_api import models
 
+from rest_framework import filters
+
 from rest_framework.authentication import TokenAuthentication
 from profiles_api import permissions
 
@@ -119,3 +121,5 @@ class UserProfileViewSet(viewsets.ModelViewSet):                                
                                                                                 # in the Django REST Framework. The way it works is you just add all the authentication classes to this
                                                                                 # authentication_classes class variable.
     permission_classes = (permissions.UpdateOwnProfile,)                        # Sets how the user gets permission to do certain things.
+    filter_backends = (filters.SearchFilter,)                                   # Adds a filter backend. You can add one or more filter backends to a particular ViewSet.
+    search_fields = ('name', 'email',)                                          # This tells the filter backend which fields we are going to make searchable by this filter.

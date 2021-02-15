@@ -446,6 +446,14 @@ a password to check that every request made is authenticated correctly.
 
 For more go to __profiles_api/views.py__.
 
+# Add search profiles feature
+
+1. Open up __profiles_api/views.py__.
+2. Import *filters* from *rest_framework*.
+3. Add *filter_backends* and *search_fields* to the *UserProfileViewSet* class.
+
+For more informations head over to the __profiles_api/views.py__ file.
+
 # Profiles REST API
 
 Profiles REST API course code.
