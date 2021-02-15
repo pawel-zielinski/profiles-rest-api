@@ -6,6 +6,10 @@ from rest_framework import status                                               
 from profiles_api import serializers                                            # Imports serializers.py from profiles_api app.
 
 from rest_framework import viewsets
+from profiles_api import models
+
+from rest_framework.authentication import TokenAuthentication
+from profiles_api import permissions
 
 
 class HelloApiView(APIView):                                                    # It creates a new class based on the APIView class that Django REST Framework provides and it allows
@@ -98,3 +102,20 @@ class HelloViewSet(viewsets.ViewSet):
     def destroy(self, request, pk = None):
         """Handle removing an object"""
         return Response({'http_method' : 'DELETE'})
+
+
+class UserProfileViewSet(viewsets.ModelViewSet):                                # Creates a new Model ViewSet
+    """Handle creating and updating profiles"""                                 # The way you use a Model ViewSet is you connect it up to a serializer class just like you would
+                                                                                # a regular ViewSet and you provide a queryset to the Model ViewSet so it knows which objects in
+                                                                                # the database are going to be managed through this ViewSet.
+    serializer_class = serializers.UserProfileSerializer
+    queryset = models.UserProfile.objects.all()                                 # The Django REST Framework knows the standard functions that you would want to perform on a Model ViewSet
+                                                                                # and that is the create function to create new items, the list function to list the models that are in
+                                                                                # the database, the update, partial update and destroy to manage specific model objects in the database.
+                                                                                # Django REST Framework takes care of all of this for us just by assigning the serializer class to
+                                                                                # a model serializer and the queryset. This is the great thing about the Model ViewSet.
+    authentication_classes = (TokenAuthentication,)                             # remember to add a comma after token authentication so that this gets created as a tuple instead of
+                                                                                # just a single item. You can configure one or more types of authentication with a particular ViewSet
+                                                                                # in the Django REST Framework. The way it works is you just add all the authentication classes to this
+                                                                                # authentication_classes class variable.
+    permission_classes = (permissions.UpdateOwnProfile,)                        # Sets how the user gets permission to do certain things.

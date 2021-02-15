@@ -200,7 +200,7 @@ Note: Three sections will appear (representing three different apps in our proje
 # APIViews
 
 The Django REST framework offers a couple of helper classes we can use to create
-our API endlpoints: the __APIView__ and the __ViewSet__. Both classes are
+our API endpoints: the __APIView__ and the __ViewSet__. Both classes are
 slightly different and offer their own benefits.
 
 The __APIView__ is the most basic type of view we can use to build our API.
@@ -378,7 +378,73 @@ makes sense to give it the name *profile*.
 
 # Create user profile serializer
 
+1. Import *models* from *profiles_api*.
+2. Add a new serializer to the __serializers.py__ file (the serializer that we
+   are going to add is model serializer - similar to a regulat serializer except
+   it has a bunch of extra functionality witch makes it really easy to work with
+   existing Django database models).
+3. Create meta class.
 
+Note: The way that you work with model serializers is you use a meta class to
+configure the serializer to point to a specific model in our project.
+
+For more informations go to __profiles_api/serializers.py__.
+
+# Create profiles ViewSet
+
+Note: Now that we have our *UserProfileSerializer* we can go ahead and create a
+ViewSet to access the serializer through an endpoint.
+
+1. Head over to __profiles_api/views.py__.
+2. Import *models* from *profiles_api*.
+
+Note: What we're going to use for our user profile API is something called
+a *Model ViewSet*. The Model ViewSet is very similar to a standard ViewSet
+except it's specifically designed for managing models through our API.
+So it has a lot of the functionality that we need for managing models built into it.
+
+3. Create new Model ViewSet - a class called *UserProfileViewSet*.
+
+For more informations head over to __profiles_api/views.py__.
+
+# Register profile Viewset with the URL router - to access it from the browser
+
+1. Open up __profiles_api/urls.py__.
+2. If needed import *views* from *profiles_api*.
+3. Register ViewSet (more in __profiles_api/urls.py__).
+
+# Create permission class
+
+Note: We want to be able to restrict the users so they can only make changes to their
+own profile in the system. We do that using a Django permissions class.
+
+1. Create a new __profiles_api/permissions.py__ file.
+2. Import *permissions* from *rest_framework*.
+3. Use this *permission* class as the base for our custom permission class.
+4. Define new class method which will be checking if object is requesting
+   a safe method or is requsesting method on it self.
+
+Note: Safe method is the method that is not making changes on anything.
+
+For more go to __profiles_api/permissions.py__.
+
+# Add authentication and permissions to Viewset
+
+1. Go to __profiles_api/views.py__.
+2. Import *TokenAuthentication* from *rest_framework.authentication*. The token
+   authentication is going to be the type of authentication we use for users to
+   authenticate themselves with our API.
+
+Note: Token authentication works by generating a random token string when the
+user logs in and then every request we make to their API that we need to
+authenticate we add this token string to the request and that is effectively
+a password to check that every request made is authenticated correctly.
+
+3. Import *permissions* from *profiles_api*.
+4. Head over to *UserProfileViewSet* class and configure this to use the correct
+   authentication and permissions classes.
+
+For more go to __profiles_api/views.py__.
 
 # Profiles REST API
 
