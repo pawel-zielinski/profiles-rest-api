@@ -428,7 +428,7 @@ Note: Safe method is the method that is not making changes on anything.
 
 For more go to __profiles_api/permissions.py__.
 
-# Add authentication and permissions to Viewset
+# Add authentication and permissions to ViewSet
 
 1. Go to __profiles_api/views.py__.
 2. Import *TokenAuthentication* from *rest_framework.authentication*. The token
@@ -445,7 +445,7 @@ a password to check that every request made is authenticated correctly.
    authentication and permissions classes.
 
 For more go to __profiles_api/views.py__.
- 
+
 # Add search profiles feature
 
 1. Open up __profiles_api/views.py__.
@@ -453,6 +453,111 @@ For more go to __profiles_api/views.py__.
 3. Add *filter_backends* and *search_fields* to the *UserProfileViewSet* class.
 
 For more informations head over to the __profiles_api/views.py__ file.
+
+# Create login API ViewSet
+
+Note: Type of authentication we are going to use is called token authentication.
+It works by generating a token which is like a random string when you log in and
+then every request you make to the API that you wish to authenticate you include
+this token in the headers. So every single request that is made to the API has
+a HTTP header. What we do is we add the token to the authorization header for
+the requests that we wish to authenticate (so when you make a request like
+a HTTP GET HTTP PUT PATCH or POST). With that request you can provide a header
+and in our header we are going to add a key called authorization and then
+we are going to pass in this token with the request and then when Django REST
+Framework receives that request it can check whether this token exists in the
+database and retrieve the appropriate user for this token.
+
+1. Add an endpoint to API that allows you to generate an authentication token:
+  * go to __profiles_api/views.py__ and import *ObtainAuthToken* from
+    *rest_framework.authtoken.views* and *api_settings* from *rest_framework.settings*,
+  * create *UserLoginApiView* class that inherits from *ObtainAuthToken*.
+
+For more head over to __profiles_api/views.py__.
+
+2. Add a URL to this view to enable it:
+  * open up __profiles_api/urls.py__,
+  * add a 'login/' path to the *urlpatterns*.
+
+Note: Remember that the *Username* field in the browsable login API is based on
+__profiles_api/models.py/UserProfile's__ *USERNAME_FIELD* variable.
+
+# Set token header using ModHeader extension
+
+1. Open ModHeader extension.
+2. In the name field input *Authentication*.
+3. Paste in value field *Token ...* <- input created token (to create token go to
+   http://127.0.0.1:8000/api/login/ and log in).
+4. Check if token authorization works by going to different profiles using only id
+   (http://127.0.0.1:8000/api/profile/1/ or http://127.0.0.1:8000/api/profile/3/) -
+   you should only be able to make changes on account that has token verified.
+
+# Plan profile feed API
+
+In this section we are going to build an API to handle user profile feed items.
+The basic features our API requires:
+  * creating new feed items for authenticated users,
+  * updating an existing feed item in case the user makes a typo or wants to
+    change the content of a feed item they have already posted,
+  * deleting an item,
+  * viewing other users feed items,
+
+What URLs might our API provide:
+1. Route API - */api/feed/* endpoint:
+  * list all the feed items in the database,
+  * GET (getting a list of all user feed items),
+  * POST (creating a new feed item for the authenticated profile).
+2. Feed item detail API - */api/feed/<feed_item_id>/* endpoint:
+  * GET (getting the details of a specific feed item - this is known as the detail view),
+  * PUT and PATCH (updating a feed item),
+  * DELETE (deleting the feed item).
+
+# Add new model Item
+
+1. Create a new Django model for storing the user profile feed items in the database:
+  * open up the __profiles_api/models.py__,
+  * import *settings* from *django.conf*,
+  * create a new model class called *ProfileFeedItem* and base it from __models.py__ model.
+
+For more head over to the __profiles_api/models.py__ file.
+
+# Create and run model migration
+
+Note: Now that we have added a new model to our app we need to run the migration.
+
+1. Create migration file by typing in terminal *python manage.py makemigrations*.
+2. Notice that in __profiles_api/migrations__ appeared new file called *0002_profilefeeditem.py*
+   which contains the migration file that will create our model in the database.
+   In other words it will create the table in the database with our *ProfileFeedItem* model.
+3. Run the migration by running *python manage.py migrate* command in the terminal
+   to make the changes in the database.
+
+# Add profile feed model to admin
+
+Note: Now that we have added our profile feed item model we need to register this
+model in the Django admin so we can manage the objects in this table through
+the Django admin interface.
+
+1. Head over to the __profiles_api/admin.py__ file.
+2. Register *ProfileFeedItem* to Django admin.
+
+# Create ProfileFeedItem serializer
+
+1. Open up the __profiles_api/serializer.py__.
+2. Create new serializer called *ProfileFeedItemSerializer* based on *ModelSerializer*
+   from __rest_framework/serializers__.
+
+For more head over to __profiles_api/serializer.py__.
+
+# Create ViewSet for our profile feed item
+
+1. Head over to the __profiles_api/views.py__.
+2. Create *UserProfileFeedViewSet* which will inherit from __rest_framework/viewsets/ModelViewSet__.
+
+More informations in __profiles_api/views.py__.
+
+3. Head over to __profiles_api/urls.py__.
+4. Register new router.
 
 # Profiles REST API
 

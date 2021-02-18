@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractBaseUser
 from django.contrib.auth.models import PermissionsMixin
 from django.contrib.auth.models import BaseUserManager
+from django.conf import settings                                                # This is used to retrieve settings from our settings.py file in the project settings of our Django project.
 
 #CUSTOM USER MANAGER
 class UserProfileManager(BaseUserManager):
@@ -62,3 +63,30 @@ class UserProfile(AbstractBaseUser, PermissionsMixin):                          
     def __str__(self):                                                          # Recommended for all Django models because otherwise when you convert it to a string it will not necessarily
         """Return string representation of our user"""                          # be a meaningfull output.
         return self.email
+
+
+class ProfileFeedItem(models.Model):                                            # This is going to be the model we use to allow users to store status updates in the system. So every time
+                                                                                # they create a new update it is going to create a new ProfileFeedItem object and associate that object
+                                                                                # with the user that created it.
+    """Profile status update"""
+    user_profile = models.ForeignKey(                                           # <- The way you link models to other models in Django is you use what is called a foreign key. When you
+        settings.AUTH_USER_MODEL, # <- Tells which model do we want to set      # use the foreign key field it sets up a foreign key relationship in the database to a remote model.
+                                  # a relationship up from this user profile    # The benefit of doing this is that it allows you to ensure that the integrity of the database
+                                  # field to a remote model (best practice is   # is maintained. So you can never create a profile feed item for a user profile that does not exist.
+                                  # to retrieve this from settings.py instead
+                                  # of model from models.py).
+        on_delete = models.CASCADE  # <- Tells Django or it tells the database what to do if the remote field is deleted. So we have profile feed items in our
+                                    # database and each one of them has a user profile associated with it. Now because there is a foreign key association the
+                                    # database needs to know what happens if you remove a user profile, what should happen to the profile feed items that are
+                                    # associated with it. The way you do that is by specifying on_delete. CASCADE says basically cascade the changes down
+                                    # through all the related fields. So it will cascade the change down and remove the associated feed items from that user.
+                                    # Another option is to set that field as null. It would set the value of the user profile to null if the remote user profile is deleted.
+    )
+
+
+    status_text = models.CharField(max_length = 255)
+    created_on = models.DateTimeField(auto_now_add = True)                      # Every time we create a new feed item automatically add the date time stamp that the item was created.
+
+    def __str__(self):                                                          # Represent status value as a string.
+        """Return the model as a string"""
+        return self.status_text
