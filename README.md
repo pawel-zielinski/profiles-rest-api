@@ -445,7 +445,7 @@ a password to check that every request made is authenticated correctly.
    authentication and permissions classes.
 
 For more go to __profiles_api/views.py__.
-
+ 
 # Add search profiles feature
 
 1. Open up __profiles_api/views.py__.
