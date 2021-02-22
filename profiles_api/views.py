@@ -11,6 +11,8 @@ from profiles_api import models
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.settings import api_settings
 
+from rest_framework.permissions import IsAuthenticated                          # This makes sure that a ViewSet is read-only if the user is not authenticated.
+
 from rest_framework import filters
 
 from rest_framework.authentication import TokenAuthentication
@@ -144,6 +146,10 @@ class UserProfileFeedViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.ProfileFeedItemSerializer                    # Sets serializer_class to ProfileFeedItemSerializer.
     queryset = models.ProfileFeedItem.objects.all()                             # Assigns the queryset that is going to be managed through our ViewSet. We are going to manage
                                                                                 # all of ProfileFeedItem objects from our model in our ViewSet.
+    permission_classes = (
+        permissions.UpdateOwnStatus,                                            # Stops users being able to update the statuses of other users in the system.
+        IsAuthenticated                                                         # Gets rid of the issue of users trying to create a new feed item when they are not authenticated.
+    )
 
 # So this sets up a basic model ViewSet that allows us to create
 # and manage feed item objects in the database however

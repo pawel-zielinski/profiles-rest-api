@@ -559,6 +559,29 @@ More informations in __profiles_api/views.py__.
 3. Head over to __profiles_api/urls.py__.
 4. Register new router.
 
+# Add permissions for feed API
+
+Note: This is to ensure that user can only change his own status and prevent
+others from changing others statuses. It also handles error created while
+unauthorized user wants to change someones status.
+
+1. Open up __profiles_api/permissions.py__.
+2. Create *UpdateOwnStatus* class which will be responsible of permissions of
+   changing status.
+3.  Next head over to __profiles_api/views.py__.
+4. Import *IsAuthenticatedOrReadOnly* from *rest_framework.permissions*.
+5. In *UserProfileFeedViewSet* class add *permissions_classes* tuple which will
+   contain previously created *UpdateOwnStatus* permission and imported
+   *IsAuthenticatedOrReadOnly*.
+
+# Restrict viewing status updates to logged in users only
+
+Note: *IsAuthenticatedOrReadOnly* allows authenticated users to get access to the database.
+If they are not authenticated they are able to read-only.
+
+To restrict viewing status updates to logged in users only just change
+*IsAuthenticatedOrReadOnly* to *IsAuthenticated* in the __profiles_api/vies.py__.
+
 # Profiles REST API
 
 Profiles REST API course code.
