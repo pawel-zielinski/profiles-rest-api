@@ -1,6 +1,6 @@
 from django.urls import path, include                                           # Include is used for including lists of URLs in the URL pattern and assigning the lists to a secific URL.
 from profiles_api import views
-from rest_framework.routers import DefaultRouter
+from rest_framework.routers import DefaultRouter                                # basename instead of base_name for newer versions of Django (9.11)
 
 router = DefaultRouter()
 router.register('hello-viewset', views.HelloViewSet, base_name = 'hello-viewset')# 1st arg - name of the URL, 2nd arg - ViewSet that we want to register to this URL, 3rd arg - base name

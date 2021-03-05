@@ -570,7 +570,7 @@ unauthorized user wants to change someones status.
    changing status.
 3.  Next head over to __profiles_api/views.py__.
 4. Import *IsAuthenticatedOrReadOnly* from *rest_framework.permissions*.
-5. In *UserProfileFeedViewSet* class add *permissions_classes* tuple which will
+5. In *UserProfileFeedViewSet* class add *permission_classes* tuple which will
    contain previously created *UpdateOwnStatus* permission and imported
    *IsAuthenticatedOrReadOnly*.
 
@@ -581,6 +581,137 @@ If they are not authenticated they are able to read-only.
 
 To restrict viewing status updates to logged in users only just change
 *IsAuthenticatedOrReadOnly* to *IsAuthenticated* in the __profiles_api/vies.py__.
+
+# Add SSH key pair to AWS
+
+Note: The reason we do this is so that when we create our server we can connect
+to it using SSH authentication. This is the same method of authentication that
+we use to connect to GitHub.
+
+1. The method is the same but we are going to add the key pair to AWS instead of github:
+   * output the content of SSH hey pair public file by typing *cat ~/.ssh/id_rsa.__pub__*,
+   * copy outputted string,
+   * log in to the AWS console,
+   * open up *services* option and head over to the *EC2*,
+
+Note: EC2 is where the key pairs can be added for use on our server instances.
+
+   * open up *Key Pair* overlap,
+   * click on *Import Key Pair* and set name (best practice is to use authorized
+     laptop's name) and then paste the copied public key,
+   * hit *import*.
+
+# Create EC2 server instance
+
+1. Open up AWS console and select *services* and *EC2*.
+
+Note: This is where all of our EC2 server instances are in AWS.
+An EC2 server instance is simply just a virtual machine that you can spin up and
+connect to deploy our application.
+
+2. Once you are on the EC2 page click on launch instance to create a new instance.
+3. Choose operating system.
+4. Select the micro instance.
+5. Head over to the *Configure Security Group* and add new rule (*Add Rule*) -
+   HTTP on port 80.
+6. Click on *Review And Launch* and then *Launch*.
+7. Choose your key pair.
+
+# Add deployment script and configs to our project
+
+1. Configure project for deployment:
+   * add unzipped __deployed.zip__ file (added to the course) that contains a zip
+     of all the scripts and configuration files that we need to deploy our project
+     (__profiles-rest-api__),
+
+Note: __deploy/setup.sh__ - script that will be used to setup our server when it is
+first created.
+
+   * update *PROJECT_GIT_URL* variable to our GitHub repository,
+
+Note: __update.sh__ - will be used to update the code on the server whenever we
+make a change. Once the server is set up we need to use the __update.sh__ script
+to pull updates or changes from git on to the server.
+
+2. Make changes to __profiles_project/settings.py__ file for it to run better on
+   the server:
+   * open up __profiles_project/settings.py__ and disable debug mode by deleting
+     line with debug and replacing it with *DEBUG = bool(int(os.environ.get('DEBUG', 1)))*,
+
+Note: It is best practice never to run the server in debug mode when it is in
+production (publicly accessible).
+Because we want to run debug mode when we run the server on our vagrant server
+but we want to disable it when we run it on the live server we are going to add
+some logic here to pull in the configuration from an environment variable.
+What this does is it pulls in the value of the environment variable called *DEBUG*.
+We set this environment variable in the __deploy/supervisor_profiles_api.conf__
+(*DEBUG* to zero). This sets the debug environment variable to zero when we run our
+application. The *1* is this syntax because this is the default value if the *DEBUG*
+does not exist. So when we run our application on our Vagrant server we are not
+going to specify *DEBUG = 0* so it is going to default to 1 which is going to be
+converted to *True*. That means when we run our server on our local machine it
+is going to be in debug mode but then when it is running on our server, debug
+mode is going to be disabled.
+
+   * add a *STATIC_ROOT* variable to the bottom of our configuration.
+
+3. Run ***chmod +x deploy/*.sh*** command in terminal opened on our project to
+   make sure that these setup scripts are executable. (it runs the *chmod* command
+   to set executable to any file that ends in *.sh* in our deployed directory).
+
+Note: So when you send a file to a server the file needs to have the permissions
+to be executable.
+
+# SSH to our server and deploy to server
+
+1. Open up the browser and load up the Amazon console page and head over to
+   *services* and *EC2*.
+2. Click on *Running Instances* where our instance should be up and running.
+3. To SSH to our server:
+   * copy *Public DNS (IPv4)*,
+   * open up terminal and type *ssh ubuntu@__paste_the_copied_url__*,
+   * hit enter and type *yes* when asked.
+
+Note: On this point we are connected to the server.
+
+4. Get the URL for the raw data file for our setup script:
+   * open up GitHub repository and head over to the *deploy* directory,
+   * choose *setup.sh*,
+   * click on *raw* button,
+   * copy the URL from the browser.
+
+5. Type *curl -sL __paste_copied_url__ | sudo bash -*.
+
+Note: It runs the *curl* command to download the file and then it passes it into
+*sudo bash*. So this *curl* command is used to retrieve contents from a URL.
+So it is basically a HTTP client in Linux. the *-s* is for running in silent mode
+which means it will not update us with all of the steps when it is downloading the file.
+The *L* is for following redirects. So if there is any redirects of this URL then
+it will automatically follow them to the final destination and download the contents.
+The ***|*** is used to pipe the output of one command into another command. So
+we are going to take the output of this curl command and we are going to pass
+it into *sudo bash*. *bash* is what we are going to use to run our script.
+The *-* is used to signal the end of the options provided for bash. So that it knows
+anything we pass in is to be ran on bash and not an option to configure bash.
+
+# Update allowed hosts and deploy changes
+
+1. Open up __profiles_project/settings.py__ and add previously copied *Public DNS (IPv4)*
+   and localhost (127.0.0.1).
+2. Push changes to GitHub.
+3. Run update script on the server to pull the GitHub latest changes.
+4. Go to the terminal, connect to the server via SSH and navigate to the location
+   on the server where our project files are stored by typing
+   *cd /usr/local/apps/profiles-rest-api/* and hitting enter.
+5. Run *sudo sh ./deploy/update.sh* to start the update script that will update
+   the application based on the latest GitHub changes.
+
+Note: At this point the server is operational and ready to handle user activities.
+
+6. Create a superuser by typing in terminal (make sure that you are on the server
+   in the */usr/local/apps/profiles-rest-api*) *sudo env/bin/python manage.py createsuperuser*.
+7. Enter email, name and password.
+
 
 # Profiles REST API
 
