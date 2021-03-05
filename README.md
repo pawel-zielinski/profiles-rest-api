@@ -1,3 +1,57 @@
+# Table of Contents
+
+1. Creating a git local project.
+2. Pushing project to GitHub.
+3. Creating Vagrant file.
+4. Set up Vagrant box.
+5. Run and contact to the server.
+6. Create Python Virtual Environment.
+7. Install required Python packages.
+8. Create a new Django project & app.
+9. Enable app in the Django.
+10. Test and commit changes.
+11. Django models.
+12. Create a user database model.
+13. Add a user model manager.
+14. Set user custom model.
+15. Create Django migration file and sync DB.
+16. Create a superuser.
+17. Enable Django Admin.
+18. Test Django Admin.
+19. APIViews.
+20. Create first APIView.
+21. Configure view URL.
+22. Create a serializer.
+23. Add POST method to APIView.
+24. Add PUT, PATCH and DELETE methods in APIView.
+25. ViewSets.
+26. Create a simple ViewSet.
+27. Add URL Router.
+28. Add create, retrieve, update, partial_update and destroy functions.
+29. Test ViewSet.
+30. Plan our profile API.
+31. Create user profile serializer.
+32. Create profiles ViewSet.
+33. Register profile Viewset with the URL router - to access it from the browser.
+34. Create permission class.
+35. Add authentication and permissions to ViewSet.
+36. Add search profiles feature.
+37. Create login API ViewSet.
+38. Set token header using ModHeader extension.
+39. Plan profile feed API.
+40. Add new model item.
+41. Create and run model migration.
+42. Add profile feed model to admin.
+43. Create ProfileFeedItem serializer.
+44. Create ViewSet for our profile feed item.
+45. Add permissions for feed API.
+46. Restrict viewing status updates to logged in users only.
+47. Add SSH key pair to AWS.
+48. Create EC2 server instance.
+49. Add deployment script and configs to our project.
+50. SSH to our server and deploy to server.
+51. Update allowed hosts and deploy changes.
+
 # Creating a git local project
 
 1. Make wanted folder a project folder by adding it in Atom as project file.
@@ -520,7 +574,7 @@ What URLs might our API provide:
    * PUT and PATCH (updating a feed item),
    * DELETE (deleting the feed item).
 
-# Add new model Item
+# Add new model item
 
 1. Create a new Django model for storing the user profile feed items in the database:
    * open up the __profiles_api/models.py__,
@@ -721,8 +775,3 @@ Note: At this point the server is operational and ready to handle user activitie
 6. Create a superuser by typing in terminal (make sure that you are on the server
    in the */usr/local/apps/profiles-rest-api*) *sudo env/bin/python manage.py createsuperuser*.
 7. Enter email, name and password.
-
-
-# Profiles REST API
-
-Profiles REST API course code.
