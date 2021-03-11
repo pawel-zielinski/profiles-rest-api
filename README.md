@@ -651,7 +651,7 @@ Note: The reason we do this is so that when we create our server we can connect
       that we use to connect to GitHub.
 
 1. The method is the same but we are going to add the key pair to AWS instead of github:
-   * output the content of SSH hey pair public file by typing *cat ~/.ssh/id_rsa.__pub__*,
+   * output the content of SSH key pair public file by typing *cat ~/.ssh/id_rsa.__pub__*,
    * copy outputted string,
    * log in to the AWS console,
    * open up *services* option and head over to the *EC2*,
